@@ -92,7 +92,7 @@ router.get('/health/disease', function(req, res) {
   console.log(body)
   console.log(body.age)
 
-  connection.query(`SELECT * FROM ${`health_insurance`} JOIN ${`disease`} ON health_insurance.category = disease.category WHERE health_insurance.policy_period < ${body.age} AND health_insurance.premium_rate < ${body.rate} AND disease.symtom = "${body.disease}"`, function (err, rows, fields) {
+  connection.query(`SELECT * FROM ${`health_insurance`} JOIN ${`disease`} ON health_insurance.category = disease.category WHERE health_insurance.policy_period < ${body.age} AND health_insurance.premium_rate < ${body.rate} AND disease.symtomp = "${body.disease}"`, function (err, rows, fields) {
 
     if (err) throw err 
       console.log('The solution is: ', rows)
