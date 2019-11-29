@@ -30,3 +30,4 @@ for getting health insurance with expected age coverage, premium rate and covera
 
 with Json request { 'age' : xx, 'rate' : yy, 'disease' : 'zzz' }
 ```
+
