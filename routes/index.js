@@ -47,7 +47,7 @@ router.get('/car', function(req, res){
 
 /* GET health insurance with expected value
    req = { "age": xx, "rate" : xx } */
-router.get('/health/cost', function(req, res) {
+router.post('/health/cost', function(req, res) {
  
   const body = req.body
 
@@ -85,7 +85,7 @@ router.get('/disease', function(req, res) {
 /** GET insurance from expected disease 
  * req = { "age": xx, "rate" : xx, "disease" : "xxx" }
 */
-router.get('/health/disease', function(req, res) {
+router.post('/health/disease', function(req, res) {
  
   const body = req.body
 
