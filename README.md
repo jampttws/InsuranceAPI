@@ -22,9 +22,9 @@ for getting all company.
 /company 
 ```
 
-for getting health insurance with expected age .insurance company
+for getting health insurance with expected insurance company.
 ```
-/health/cost
+/company/search
 
 with Json request { 'company' : 'xx' }
 ```
