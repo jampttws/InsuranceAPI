@@ -2,12 +2,13 @@ var express = require('express');
 var router = express.Router();
 var mysql = require('mysql');
 
+
 var connection = mysql.createConnection({
   host: '158.108.34.31',
   user: 'b6010545846',
   password: 'piyaphol.w@ku.th',
   database: 'b6010545846'
-})
+})  
 
 connection.connect()
 console.log("connect!")
@@ -20,7 +21,7 @@ router.get('/', function(req, res, next) {
 /* GET from health insurance */
 router.get('/health', function(req, res){
 
-  connection.query('SELECT * FROM `health_insurance`', function (err, rows, fields) {
+  connection.query('SELECT * FROM `health_insurance` ORDER BY company_name', function (err, rows, fields) {
 
     if (err) throw err 
       console.log('The solution is: ', rows)
@@ -31,19 +32,6 @@ router.get('/health', function(req, res){
 
 });
 
-/* GET from car insurance */
-router.get('/car', function(req, res){
-
-  connection.query('SELECT * FROM `car_insurance`', function (err, rows, fields) {
-
-    if (err) throw err 
-      console.log('The solution is: ', rows)
-
-    res.send(rows);
-
-  })
-
-});
 
 /* GET health insurance with expected value
    req = { "age": xx, "rate" : xx } */
@@ -53,7 +41,7 @@ router.post('/health/cost', function(req, res) {
 
   console.log(body)
 
-  connection.query(`SELECT * FROM ${`health_insurance`} WHERE policy_period < ${body.age} AND premium_rate < ${body.rate}`, function (err, rows, fields) {
+  connection.query(`SELECT * FROM ${`health_insurance`} WHERE policy_period < ${body.age} AND premium_rate < ${body.rate} ORDER BY company_name`, function (err, rows, fields) {
 
     if (err) throw err 
       console.log('The solution is: ', rows)
@@ -71,7 +59,7 @@ router.get('/disease', function(req, res) {
 
   console.log(body)
 
-  connection.query('SELECT * FROM `disease`', function (err, rows, fields) {
+  connection.query('SELECT * FROM `disease` WHERE category = "ALL" ORDER BY symtomp', function (err, rows, fields) {
 
     if (err) throw err 
       console.log('The solution is: ', rows)
@@ -92,7 +80,7 @@ router.post('/health/disease', function(req, res) {
   console.log(body)
   console.log(body.age)
 
-  connection.query(`SELECT * FROM ${`health_insurance`} JOIN ${`disease`} ON health_insurance.category = disease.category WHERE health_insurance.policy_period < ${body.age} AND health_insurance.premium_rate < ${body.rate} AND disease.symtomp = "${body.disease}"`, function (err, rows, fields) {
+  connection.query(`SELECT * FROM ${`health_insurance`} JOIN ${`disease`} ON health_insurance.category = disease.category WHERE health_insurance.policy_period < ${body.age} AND health_insurance.premium_rate < ${body.rate} AND disease.symtomp = "${body.disease}" ORDER BY company_name`, function (err, rows, fields) {
 
     if (err) throw err 
       console.log('The solution is: ', rows)
