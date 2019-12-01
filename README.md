@@ -1,6 +1,6 @@
 # InsuranceAPI
 
-an api which uses to compare the cost of insurance and find insurance that cover each symtoms of user.
+an api which uses to compare the cost of insurance and find insurance that cover each symptoms of user.
 
 ``` 
 https://insuranceapii.herokuapp.com 
@@ -38,24 +38,37 @@ for getting health insurance with expected age coverage and premium rate.
 with Json request { 'age' : xx, 'rate' : yy }
 ```
 
-for getting health insurance with expected age coverage and premium rate order from minimum coverage.
+for getting health insurance with expected age coverage and premium rate order from minimum premium rate.
 ```
 /health/cost/min
 
 with Json request { 'age' : xx, 'rate' : yy }
 ```
 
-for getting health insurance with expected age coverage, premium rate and coverage symtoms.
+for getting health insurance with expected age coverage and premium rate order from minimum cover expense.
+```
+/health/cost/min/coverexpense
+
+with Json request { 'age' : xx, 'rate' : yy }
+```
+
+for getting health insurance with expected age coverage, premium rate and coverage symptoms.
 ```
 /health/disease
 
 with Json request { 'age' : xx, 'rate' : yy, 'disease' : 'zzz' }
 ```
 
-for getting health insurance with expected age coverage, premium rate and coverage symtoms order from minimum coverage.
+for getting health insurance with expected age coverage, premium rate and coverage symptoms order from minimum premium rate.
 ```
 /health/disease/min
 
 with Json request { 'age' : xx, 'rate' : yy, 'disease' : 'zzz' }
 ```
 
+for getting health insurance with expected age coverage, premium rate and coverage symptoms order from minimum cover expense.
+```
+/health/disease/min/coverexpense
+
+with Json request { 'age' : xx, 'rate' : yy, 'disease' : 'zzz' }
+```

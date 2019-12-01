@@ -74,6 +74,25 @@ router.post('/health/cost', function(req, res) {
   
   });
 
+  /* GET health insurance with expected value
+   req = { "age": xx, "rate" : xx } 
+   order minimum cover expense */
+   router.post('/health/cost/min/coverexpense', function(req, res) {
+ 
+    const body = req.body
+  
+    console.log(body)
+  
+    connection.query(`SELECT * FROM ${`health_insurance`} WHERE policy_period < ${body.age} AND premium_rate < ${body.rate} ORDER BY covered_expense`, function (err, rows, fields) {
+  
+      if (err) throw err 
+        console.log('The solution is: ', rows)
+  
+      res.send(rows);
+  
+    })
+  
+  });
 
 /* GET all insurance company */
    router.get('/company', function(req, res) {
@@ -174,7 +193,26 @@ router.post('/health/disease/min', function(req, res) {
 
 });
 
+/** GET insurance from expected disease order by covere expense 
+ * req = { "age": xx, "rate" : xx, "disease" : "xxx" }
+*/
+router.post('/health/disease/min/coverexpense', function(req, res) {
+ 
+  const body = req.body
 
+  console.log(body)
+  console.log(body.age)
+
+  connection.query(`SELECT * FROM ${`health_insurance`} JOIN ${`disease`} ON health_insurance.category = disease.category WHERE health_insurance.policy_period < ${body.age} AND health_insurance.premium_rate < ${body.rate} AND disease.symtomp = "${body.disease}" ORDER BY covered_expense`, function (err, rows, fields) {
+
+    if (err) throw err 
+      console.log('The solution is: ', rows)
+
+    res.send(rows);
+
+  })
+
+});
 
 
 module.exports = router;
