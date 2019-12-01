@@ -9,22 +9,22 @@ https://insuranceapii.herokuapp.com
 
  for getting all health insurance.
 ```
- /health   
+ GET /health   
  ```
 
 for getting all disease.
 ```
-/disease 
+GET /disease 
 ```
 
 for getting all company.
 ```
-/company 
+GET /company 
 ```
 
 for getting health insurance with expected insurance company.
 ```
-/company/search
+POST /company/search
 
 with Json request { 'company' : 'xx' }
 ```
@@ -33,42 +33,42 @@ with Json request { 'company' : 'xx' }
 
 for getting health insurance with expected age coverage and premium rate.
 ```
-/health/cost
+POST /health/cost
 
 with Json request { 'age' : xx, 'rate' : yy }
 ```
 
 for getting health insurance with expected age coverage and premium rate order from minimum premium rate.
 ```
-/health/cost/min
+POST /health/cost/min
 
 with Json request { 'age' : xx, 'rate' : yy }
 ```
 
 for getting health insurance with expected age coverage and premium rate order from minimum cover expense.
 ```
-/health/cost/min/coverexpense
+POST /health/cost/min/coverexpense
 
 with Json request { 'age' : xx, 'rate' : yy }
 ```
 
 for getting health insurance with expected age coverage, premium rate and coverage symptoms.
 ```
-/health/disease
+POST /health/disease
 
 with Json request { 'age' : xx, 'rate' : yy, 'disease' : 'zzz' }
 ```
 
 for getting health insurance with expected age coverage, premium rate and coverage symptoms order from minimum premium rate.
 ```
-/health/disease/min
+POST /health/disease/min
 
 with Json request { 'age' : xx, 'rate' : yy, 'disease' : 'zzz' }
 ```
 
 for getting health insurance with expected age coverage, premium rate and coverage symptoms order from minimum cover expense.
 ```
-/health/disease/min/coverexpense
+POST /health/disease/min/coverexpense
 
 with Json request { 'age' : xx, 'rate' : yy, 'disease' : 'zzz' }
 ```

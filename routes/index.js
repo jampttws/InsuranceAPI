@@ -33,7 +33,6 @@ router.get('/health', function(req, res){
 });
 
 
-
 /* GET health insurance with expected value
    req = { "age": xx, "rate" : xx } 
    order by company name*/
