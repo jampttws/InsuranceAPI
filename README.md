@@ -17,9 +17,30 @@ for getting all disease.
 /disease 
 ```
 
+for getting all company.
+```
+/company 
+```
+
+for getting health insurance with expected age .insurance company
+```
+/health/cost
+
+with Json request { 'company' : 'xx' }
+```
+
+
+
 for getting health insurance with expected age coverage and premium rate.
 ```
 /health/cost
+
+with Json request { 'age' : xx, 'rate' : yy }
+```
+
+for getting health insurance with expected age coverage and premium rate order from minimum coverage.
+```
+/health/cost/min
 
 with Json request { 'age' : xx, 'rate' : yy }
 ```

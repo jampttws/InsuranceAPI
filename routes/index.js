@@ -57,22 +57,60 @@ router.post('/health/cost', function(req, res) {
 /* GET health insurance with expected value
    req = { "age": xx, "rate" : xx } 
    order minimum premium rate */
-router.post('/health/cost/min', function(req, res) {
+   router.post('/health/cost/min', function(req, res) {
  
-  const body = req.body
+    const body = req.body
+  
+    console.log(body)
+  
+    connection.query(`SELECT * FROM ${`health_insurance`} WHERE policy_period < ${body.age} AND premium_rate < ${body.rate} ORDER BY premium_rate`, function (err, rows, fields) {
+  
+      if (err) throw err 
+        console.log('The solution is: ', rows)
+  
+      res.send(rows);
+  
+    })
+  
+  });
 
-  console.log(body)
 
-  connection.query(`SELECT * FROM ${`health_insurance`} WHERE policy_period < ${body.age} AND premium_rate < ${body.rate} ORDER BY premium_rate`, function (err, rows, fields) {
+/* GET all insurance company */
+   router.get('/company', function(req, res) {
+ 
+    const body = req.body
+  
+    console.log(body)
+  
+    connection.query(`SELECT company_name FROM ${`health_insurance`} ORDER BY company_name`, function (err, rows, fields) {
+  
+      if (err) throw err 
+        console.log('The solution is: ', rows)
+  
+      res.send(rows);
+  
+    })
+  
+  });
 
-    if (err) throw err 
-      console.log('The solution is: ', rows)
-
-    res.send(rows);
-
-  })
-
-});
+  /* GET health insurance with expected insurance company
+   req = { "company": xx} */
+   router.post('/company/search', function(req, res) {
+ 
+    const body = req.body
+  
+    console.log(body)
+  
+    connection.query(`SELECT * FROM ${`health_insurance`} WHERE company_name = "${body.company}" ORDER BY program_name`, function (err, rows, fields) {
+  
+      if (err) throw err 
+        console.log('The solution is: ', rows)
+  
+      res.send(rows);
+  
+    })
+  
+  });
 
 
 /* GET all the disease */
@@ -92,7 +130,6 @@ router.get('/disease', function(req, res) {
   })
 
 });
-
 
 
 /** GET insurance from expected disease 
