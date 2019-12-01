@@ -33,8 +33,10 @@ router.get('/health', function(req, res){
 });
 
 
+
 /* GET health insurance with expected value
-   req = { "age": xx, "rate" : xx } */
+   req = { "age": xx, "rate" : xx } 
+   order by company name*/
 router.post('/health/cost', function(req, res) {
  
   const body = req.body
@@ -52,14 +54,16 @@ router.post('/health/cost', function(req, res) {
 
 });
 
-/* GET all the disease */
-router.get('/disease', function(req, res) {
+/* GET health insurance with expected value
+   req = { "age": xx, "rate" : xx } 
+   order minimum premium rate */
+router.post('/health/cost/min', function(req, res) {
  
   const body = req.body
 
   console.log(body)
 
-  connection.query('SELECT * FROM `disease` WHERE category = "ALL" ORDER BY symtomp', function (err, rows, fields) {
+  connection.query(`SELECT * FROM ${`health_insurance`} WHERE policy_period < ${body.age} AND premium_rate < ${body.rate} ORDER BY premium_rate`, function (err, rows, fields) {
 
     if (err) throw err 
       console.log('The solution is: ', rows)
@@ -69,6 +73,27 @@ router.get('/disease', function(req, res) {
   })
 
 });
+
+
+/* GET all the disease */
+router.get('/disease', function(req, res) {
+ 
+  const body = req.body
+
+  console.log(body)
+
+  connection.query('SELECT symtomp FROM `disease` WHERE category = "ALL" ORDER BY symtomp', function (err, rows, fields) {
+
+    if (err) throw err 
+      console.log('The solution is: ', rows)
+
+    res.send(rows);
+
+  })
+
+});
+
+
 
 /** GET insurance from expected disease 
  * req = { "age": xx, "rate" : xx, "disease" : "xxx" }
@@ -90,6 +115,7 @@ router.post('/health/disease', function(req, res) {
   })
 
 });
+
 
 
 
