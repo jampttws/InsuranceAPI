@@ -101,7 +101,7 @@ router.post('/health/cost', function(req, res) {
   
     console.log(body)
   
-    connection.query(`SELECT company_name FROM ${`health_insurance`} ORDER BY company_name`, function (err, rows, fields) {
+    connection.query(`SELECT DISTINCT company_name FROM ${`health_insurance`} ORDER BY company_name`, function (err, rows, fields) {
   
       if (err) throw err 
         console.log('The solution is: ', rows)
