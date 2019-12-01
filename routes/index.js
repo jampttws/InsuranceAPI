@@ -153,6 +153,26 @@ router.post('/health/disease', function(req, res) {
 
 });
 
+/** GET insurance from expected disease order by premium rate 
+ * req = { "age": xx, "rate" : xx, "disease" : "xxx" }
+*/
+router.post('/health/disease/min', function(req, res) {
+ 
+  const body = req.body
+
+  console.log(body)
+  console.log(body.age)
+
+  connection.query(`SELECT * FROM ${`health_insurance`} JOIN ${`disease`} ON health_insurance.category = disease.category WHERE health_insurance.policy_period < ${body.age} AND health_insurance.premium_rate < ${body.rate} AND disease.symtomp = "${body.disease}" ORDER BY premium_rate`, function (err, rows, fields) {
+
+    if (err) throw err 
+      console.log('The solution is: ', rows)
+
+    res.send(rows);
+
+  })
+
+});
 
 
 

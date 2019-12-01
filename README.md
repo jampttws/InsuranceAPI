@@ -52,3 +52,10 @@ for getting health insurance with expected age coverage, premium rate and covera
 with Json request { 'age' : xx, 'rate' : yy, 'disease' : 'zzz' }
 ```
 
+for getting health insurance with expected age coverage, premium rate and coverage symtoms order from minimum coverage.
+```
+/health/disease/min
+
+with Json request { 'age' : xx, 'rate' : yy, 'disease' : 'zzz' }
+```
+
