@@ -13,7 +13,7 @@ var connection = mysql.createConnection({
 connection.connect()
 console.log("connect!")
 
-
+/** get all user*/
 router.get('/', function(req, res){
 
     connection.query('SELECT * FROM `user_detail`', function (err, rows, fields) {
@@ -27,7 +27,9 @@ router.get('/', function(req, res){
   
   });
 
-/** add insurance program of user. */
+/** add insurance program of user. 
+ * { 'id': xxx, 'name' : 'yyy', 'birthdate' : 'yyyy-mm-dd', 'program' : 'zzz', 'company' : 'kkk'}
+*/
 router.post('/add', function(req, res){
 
     const body = req.body
@@ -45,14 +47,16 @@ router.post('/add', function(req, res){
   
 });
 
-/** get insurance program of each user. */
+/** get insurance program of each user. 
+ * { 'id' : xxx}
+*/
 router.post('/details', function(req, res){
 
     const body = req.body
 
     console.log(body)
 
-    connection.query(`SELECT ${'`program_name`'}, ${'`company_name`'} FROM ${'`user_detail`'} WHERE personal_id = ${body.id}`, function (err, rows, fields) {
+    connection.query(`SELECT ${'`name`'}, ${'`program_name`'}, ${'`company_name`'} FROM ${'`user_detail`'} WHERE personal_id = ${body.id}`, function (err, rows, fields) {
   
       if (err) throw err 
         console.log('The solution is: ', rows)
