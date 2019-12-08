@@ -56,7 +56,7 @@ router.post('/details', function(req, res){
 
     console.log(body)
 
-    connection.query(`SELECT ${'`name`'}, ${'`program_name`'}, ${'`company_name`'} FROM ${'`user_detail`'} WHERE personal_id = ${body.id}`, function (err, rows, fields) {
+    connection.query(`SELECT * FROM ${'`user_detail`'} WHERE personal_id = ${body.id}`, function (err, rows, fields) {
   
       if (err) throw err 
         console.log('The solution is: ', rows)
