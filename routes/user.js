@@ -67,4 +67,18 @@ router.post('/details', function(req, res){
   
 });  
 
+/** get company logo */
+router.get('/logo', function(req, res){
+
+    connection.query('SELECT * FROM `insurance_pic`', function (err, rows, fields) {
+  
+      if (err) throw err 
+        console.log('The solution is: ', rows)
+  
+      res.send(rows);
+  
+    })
+  
+  });
+
 module.exports = router;
