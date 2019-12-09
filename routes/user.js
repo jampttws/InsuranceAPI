@@ -151,6 +151,37 @@ router.get('/allaccount', function(req, res){
 
 });
 
+/**  
+ * { 'id' : xxx, 'password' : 'yyy' }
+ */
+router.post('/login', function(req, res) {
+
+    const body = req.body
+
+    console.log(body)
+
+    connection.query('SELECT * FROM `user_account`', function (err, rows, fields) {
+  
+        if (err) throw err 
+          console.log('The solution is: ', rows)
+
+        rows.forEach(element => {
+
+            if(element.personal_id === body.id){
+                if(element.password === body.password){
+                    res.send(JSON.parse('{ "status" : "successful" }'));
+                } else {
+                    res.send(JSON.parse('{ "status" : "failed" }'));
+                }
+            } else  {
+                res.send(JSON.parse('{ "status" : "failed" }'));
+            }
+        });
+    
+    })
+
+});
+
 /** get company logo */
 router.get('/logo', function(req, res){
 
