@@ -11,7 +11,7 @@ var connection = mysql.createConnection({
 })  
 
 connection.connect()
-console.log("connect!")
+console.log("user connect!")
 
 /** get all user*/
 router.get('/', function(req, res){

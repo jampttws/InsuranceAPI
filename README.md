@@ -29,8 +29,6 @@ POST /company/search
 with Json request { 'company' : 'xx' }
 ```
 
-
-
 for getting health insurance with expected age coverage and premium rate.
 ```
 POST /health/cost
@@ -71,4 +69,28 @@ for getting health insurance with expected age coverage, premium rate and covera
 POST /health/disease/min/coverexpense
 
 with Json request { 'age' : xx, 'rate' : yy, 'disease' : 'zzz' }
+```
+------
+ ## user site
+
+for getting all user.
+```
+GET /user
+```
+
+for add user details.
+```
+POST /user/add
+with Json request { 'id' : xxx, 'name' : 'yyy', 'birthdate' : 'yyyy-mm-dd', 'program' : 'zzz', 'company' : 'kkk'}
+```
+
+for getting each user's insurance with match id.
+```
+POST /user/details
+with Json request { 'id' : xxx }
+```
+
+for getting insurance company's logo.
+```
+GET /user/logo
 ```
