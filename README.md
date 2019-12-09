@@ -80,14 +80,25 @@ GET /user
 
 for add user details.
 ```
-POST /user/add
+POST /user/addinsurance
 with Json request { 'id' : xxx, 'name' : 'yyy', 'birthdate' : 'yyyy-mm-dd', 'program' : 'zzz', 'company' : 'kkk'}
 ```
 
-for getting each user's insurance with match id.
+for add user account.
+```
+POST /user/newuser
+with Json request { 'id' : xxx, 'name' : 'yyy', 'password' : 'zzz' }
+```
+
+for getting each user insurance with match id.
 ```
 POST /user/details
 with Json request { 'id' : xxx }
+```
+
+for getting all user account.
+```
+GET /user/allaccount
 ```
 
 for getting insurance company's logo.

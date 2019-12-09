@@ -1,6 +1,8 @@
 var express = require('express');
 var router = express.Router();
 var mysql = require('mysql');
+var Cryptr = require('cryptr');
+var cryptr = new Cryptr('myTotalySecretKey');
 
 
 var connection = mysql.createConnection({
@@ -30,19 +32,19 @@ router.get('/', function(req, res){
 /** add insurance program of user. 
  * { 'id': xxx, 'name' : 'yyy', 'birthdate' : 'yyyy-mm-dd', 'program' : 'zzz', 'company' : 'kkk'}
 */
-router.post('/add', function(req, res){
+router.post('/addinsurance', function(req, res){
 
     const body = req.body
 
     console.log(body)
 
-    connection.query(`INSERT INTO ${'`user_detail`'}(${'`personal_id`'}, ${'`name`'}, ${'`date_of_birth`'}, ${'`program_name`'}, ${'`company_name`'}) VALUES ([${body.id}],[${body.name}],[${body.birthdate}],[${body.program}],[${body.company}])`, function (err, rows, fields) {
-  
-      if (err) throw err 
+    connection.query(`INSERT INTO ${'`user_detail`'}(${'`personal_id`'}, ${'`name`'}, ${'`date_of_birth`'}, ${'`program_name`'}, ${'`company_name`'}) VALUES (${body.id}, '${body.name}', '${body.birthdate}', '${body.program}', '${body.company}')`, function (err, rows, fields) {
+
+        if (err) throw err 
         console.log('The solution is: ', rows)
-  
-      res.send(rows);
-  
+
+        res.send(rows);
+
     })
   
 });
@@ -61,11 +63,63 @@ router.post('/details', function(req, res){
       if (err) throw err 
         console.log('The solution is: ', rows)
   
+        var encryptBody = cryptr.encrypt(rows[0].name);
+        console.log(encryptBody);
+
+        var decryptBody = cryptr.decrypt(encryptBody);
+        console.log(decryptBody);
+
       res.send(rows);
   
     })
   
 });  
+
+/**add new user account
+ * { 'id' : xxx, 'name' : 'yyy', 'password' : 'zzz' }
+ */
+router.post('/newuser', function(req, res) {
+
+    const body = req.body
+
+    console.log(body)
+
+    var encryptPass = cryptr.encrypt(body.password);
+
+    connection.query(`SELECT ${'`personal_id`'} FROM ${'`user_account`'}`, function (err, rows, fields) {
+
+        if (err) throw err 
+        console.log('The solution is: ', rows)
+
+        if(body.id !== rows[0].personal_id ){
+
+            connection.query(`INSERT INTO ${'`user_account`'}(${'`personal_id`'}, ${'`name`'}, ${'`password`'}) VALUES (${body.id},'${body.name}', '${body.password}')`, function (err, rowss, fields) {
+
+                if (err) throw err 
+                res.send(JSON.parse('{ "status" : "success"}'));
+            })   
+        } else {
+            console.log('already have this id.')
+            res.send(JSON.parse('{ "status" : "fail"}'));
+        }  
+
+    })
+
+});
+
+/** get all user account. */
+router.get('/allaccount', function(req, res){
+
+    connection.query('SELECT * FROM `user_account`', function (err, rows, fields) {
+  
+        if (err) throw err 
+          console.log('The solution is: ', rows)
+    
+        res.send(rows);
+    
+    })
+
+});
 
 /** get company logo */
 router.get('/logo', function(req, res){
