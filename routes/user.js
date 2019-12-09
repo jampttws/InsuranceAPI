@@ -62,13 +62,25 @@ router.post('/details', function(req, res){
   
       if (err) throw err 
         console.log('The solution is: ', rows)
+      res.send(rows);
   
-        var encryptBody = cryptr.encrypt(rows[0].name);
-        console.log(encryptBody);
+    })
+  
+});  
 
-        var decryptBody = cryptr.decrypt(encryptBody);
-        console.log(decryptBody);
+/** get insurance program of each user. 
+ * { 'id' : xxx, 'disease' : 'yyy'}
+*/
+router.post('/details/disease', function(req, res){
 
+    const body = req.body
+
+    console.log(body)
+
+    connection.query(`SELECT * FROM ${'`user_detail`'} JOIN ${`insurance_pic`} ON user_detail.company_name = insurance_pic.company WHERE personal_id = ${body.id}`, function (err, rows, fields) {
+  
+      if (err) throw err 
+        console.log('The solution is: ', rows)
       res.send(rows);
   
     })
@@ -91,16 +103,18 @@ router.post('/newuser', function(req, res) {
         if (err) throw err 
         console.log('The solution is: ', rows)
 
-        if(body.id !== rows[0].personal_id ){
+        if(body.id === rows[0].personal_id ){
+
+            console.log('already have this account.')
+            res.send(JSON.parse('{ "status" : "fail"}'));
+            
+        } else {
 
             connection.query(`INSERT INTO ${'`user_account`'}(${'`personal_id`'}, ${'`name`'}, ${'`password`'}) VALUES (${body.id},'${body.name}', '${body.password}')`, function (err, rowss, fields) {
 
                 if (err) throw err 
                 res.send(JSON.parse('{ "status" : "success"}'));
             })   
-        } else {
-            console.log('already have this id.')
-            res.send(JSON.parse('{ "status" : "fail"}'));
         }  
 
     })
