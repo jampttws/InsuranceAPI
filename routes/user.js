@@ -78,7 +78,7 @@ router.post('/details/disease', function(req, res){
 
     console.log(body)
 
-    connection.query(`SELECT DISTINCT user_detail.program_name, user_detail.company_name 
+    connection.query(`SELECT DISTINCT user_detail.program_name, user_detail.company_name, 
         FROM ${'`user_detail`'} JOIN ${'`health_insurance`'} 
         ON user_detail.program_name = health_insurance.program_name
         WHERE health_insurance.program_name IN 
@@ -160,23 +160,20 @@ router.post('/login', function(req, res) {
 
     console.log(body)
 
-    connection.query('SELECT * FROM `user_account`', function (err, rows, fields) {
+    connection.query(`SELECT * FROM ${'`user_account`'} WHERE personal_id = ${body.id}`, function (err, rows, fields) {
   
         if (err) throw err 
           console.log('The solution is: ', rows)
 
-        rows.forEach(element => {
-
-            if(element.personal_id === body.id){
-                if(element.password === body.password){
-                    res.send(JSON.parse('{ "status" : "successful" }'));
-                } else {
-                    res.send(JSON.parse('{ "status" : "failed" }'));
-                }
-            } else  {
-                res.send(JSON.parse('{ "status" : "failed" }'));
-            }
-        });
+          if(JSON.stringify(rows) === "[]"){
+              res.send(JSON.parse('{"status":"invalid"}'));
+          } else {
+             if(rows[0].password === body.password) {
+                res.send(JSON.parse('{"status":"success"}'));
+             } else {
+                res.send(JSON.parse('{"status":"invalid"}'));
+             }       
+          }
     
     })
 
