@@ -58,7 +58,8 @@ router.post('/details', function(req, res){
 
     console.log(body)
 
-    connection.query(`SELECT * FROM ${'`user_detail`'} JOIN ${`insurance_pic`} ON user_detail.company_name = insurance_pic.company WHERE personal_id = ${body.id}`, function (err, rows, fields) {
+    connection.query(`SELECT * FROM ${'`user_detail`'} JOIN ${`insurance_pic`} 
+    ON user_detail.company_name = insurance_pic.company WHERE personal_id = ${body.id}`, function (err, rows, fields) {
   
       if (err) throw err 
         console.log('The solution is: ', rows)

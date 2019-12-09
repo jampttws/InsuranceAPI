@@ -96,6 +96,12 @@ POST /user/details
 with Json request { 'id' : xxx }
 ```
 
+for getting each user insurance with match id and disease.
+```
+POST /user/details/disease
+with Json request { 'id' : xxx, 'disease' : 'yyy' }
+```
+
 for getting all user account.
 ```
 GET /user/allaccount
