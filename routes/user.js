@@ -77,7 +77,14 @@ router.post('/details/disease', function(req, res){
 
     console.log(body)
 
-    connection.query(`SELECT * FROM ${'`user_detail`'} JOIN ${`insurance_pic`} ON user_detail.company_name = insurance_pic.company WHERE personal_id = ${body.id}`, function (err, rows, fields) {
+    connection.query(`SELECT DISTINCT user_detail.program_name, user_detail.company_name 
+        FROM ${'`user_detail`'} JOIN ${'`health_insurance`'} 
+        ON user_detail.program_name = health_insurance.program_name
+        WHERE health_insurance.program_name IN 
+            ( SELECT health_insurance.program_name FROM ${'`health_insurance`'}
+            JOIN ${'`disease`'} ON health_insurance.category = disease.category
+            WHERE disease.symtomp = "${body.disease}" )
+        AND user_detail.personal_id = ${body.id}`, function (err, rows, fields) {
   
       if (err) throw err 
         console.log('The solution is: ', rows)
@@ -103,13 +110,21 @@ router.post('/newuser', function(req, res) {
         if (err) throw err 
         console.log('The solution is: ', rows)
 
-        if(body.id === rows[0].personal_id ){
+        var matchId = false;
+
+        rows.forEach(element => {
+            if(element.personal_id === body.id){
+                matchId = true;
+            } 
+        });
+
+        if(matchId){
 
             console.log('already have this account.')
             res.send(JSON.parse('{ "status" : "fail"}'));
-            
-        } else {
 
+        } else {
+            
             connection.query(`INSERT INTO ${'`user_account`'}(${'`personal_id`'}, ${'`name`'}, ${'`password`'}) VALUES (${body.id},'${body.name}', '${body.password}')`, function (err, rowss, fields) {
 
                 if (err) throw err 
