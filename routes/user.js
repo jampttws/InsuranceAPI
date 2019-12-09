@@ -78,7 +78,7 @@ router.post('/details/disease', function(req, res){
 
     console.log(body)
 
-    connection.query(`SELECT DISTINCT user_detail.program_name, user_detail.company_name, 
+    connection.query(`SELECT DISTINCT user_detail.program_name, user_detail.company_name, health_insurance.covered_expense
         FROM ${'`user_detail`'} JOIN ${'`health_insurance`'} 
         ON user_detail.program_name = health_insurance.program_name
         WHERE health_insurance.program_name IN 
@@ -87,10 +87,33 @@ router.post('/details/disease', function(req, res){
             WHERE disease.symtomp = "${body.disease}" )
         AND user_detail.personal_id = ${body.id}`, function (err, rows, fields) {
   
-      if (err) throw err 
-        console.log('The solution is: ', rows)
-      res.send(rows);
-  
+         if (err) throw err 
+             console.log('The solution is: ', rows)
+      
+        var data = [];     
+        var i = 0;
+
+        rows.forEach(  element => {
+
+            connection.query(`SELECT picture FROM ${`insurance_pic`} WHERE company = "${element.company_name}"`, function (err, rowss, fields) {
+      
+                if (err) throw err 
+                    console.log('The solution is: ', rowss)
+    
+                var d = `{"program_name":"${element.program_name}", "company_name":"${element.company_name}", "covered_expense":"${element.covered_expense}", "picture":"${rowss[0].picture}"}`;
+
+                console.log(JSON.parse(d))
+                data.push(JSON.parse(d))
+
+                i++;
+
+                if(i === rows.length) {
+                    res.send(data);
+                }    
+            })
+            
+        });  
+
     })
   
 });  
