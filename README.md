@@ -107,7 +107,7 @@ for getting all user account.
 GET /user/allaccount
 ```
 
-for getting insurance company's logo.
+for getting insurance company logo.
 ```
 GET /user/logo
 ```
