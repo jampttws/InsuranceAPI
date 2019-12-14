@@ -119,7 +119,7 @@ router.post('/details/disease', function(req, res){
 });  
 
 /**add new user account
- * { 'id' : xxx, 'name' : 'yyy', 'password' : 'zzz' }
+ * { 'id' : xxx, 'name' : 'yyy', 'password' : 'zzz', 'birthdate' : 'yyyy-mm-dd' }
  */
 router.post('/newuser', function(req, res) {
 
@@ -149,7 +149,7 @@ router.post('/newuser', function(req, res) {
 
         } else {
             
-            connection.query(`INSERT INTO ${'`user_account`'}(${'`personal_id`'}, ${'`name`'}, ${'`password`'}) VALUES (${body.id},'${body.name}', '${body.password}')`, function (err, rowss, fields) {
+            connection.query(`INSERT INTO ${'`user_account`'}(${'`personal_id`'}, ${'`name`'}, ${'`password`'}, ${'`date_of_birth`'}) VALUES (${body.id},'${body.name}', '${body.password}', '${body.birthdate}')`, function (err, rowss, fields) {
 
                 if (err) throw err 
                 res.send(JSON.parse('{ "status" : "success"}'));
@@ -254,7 +254,7 @@ router.post('/id/history', (req, res) => {
 
     console.log(body)
 
-    connection.query(`SELECT * FROM ${`User_history`} WHERE personal_id = ${body.id}`, function (err, rows, fields) {
+    connection.query(`SELECT * FROM ${`User_history`} WHERE personal_id = ${body.id} `, function (err, rows, fields) {
   
         if (err) throw err 
           console.log('The solution is: ', rows)
