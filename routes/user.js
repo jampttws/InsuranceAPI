@@ -245,6 +245,24 @@ router.get('/all/history', function(req, res){
     
 });
 
+/** get the usage history of user*/
+router.post('/id/history', (req, res) => {
+
+    const body = req.body
+
+    console.log(body)
+
+    connection.query(`SELECT * FROM ${`User_history`} WHERE personal_id = ${body.id}`, function (err, rows, fields) {
+  
+        if (err) throw err 
+          console.log('The solution is: ', rows)
+    
+        res.send(rows);
+    
+      })
+
+});
+
 
 /** get company logo */
 router.get('/logo', function(req, res){

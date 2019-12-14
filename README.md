@@ -118,6 +118,12 @@ for getting history of usage insurance.
 GET /user/all/history
 ```
 
+for getting user usage history.
+```
+POST /user/id/history
+with Json request { 'id' : xxx }
+```
+
 for getting insurance company logo.
 ```
 GET /user/logo
