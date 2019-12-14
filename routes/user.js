@@ -168,13 +168,12 @@ router.get('/allaccount', function(req, res){
         if (err) throw err 
           console.log('The solution is: ', rows)
     
-        res.send(rows);
-    
     })
 
 });
 
 /**  
+ * check login
  * { 'id' : xxx, 'password' : 'yyy' }
  */
 router.post('/login', function(req, res) {
@@ -202,6 +201,36 @@ router.post('/login', function(req, res) {
 
 });
 
+/**
+ * add history when user use insurance.
+ * { 
+	"id": xxx,
+	"name": "yyy",
+	"age": aa,
+	"company": "ccc",
+	"program": "ppp",
+    "disease" : "ddd",
+	"covered_expense": eee,
+	"payment": mmm
+}
+ */
+router.post('/add/history', function(req, res){
+
+    const body = req.body
+
+    console.log(body)
+
+    connection.query(`INSERT INTO ${'`User_history`'}(${'`personal_id`'}, ${'`user_name`'}, ${'`user_age`'},  ${'`insurance_company`'}, ${'`insurance_program`'},  ${'`disease`'},  ${'`covered_expense`'},  ${'`payment_cost`'},  ${'`time`'}) 
+                      VALUES (${body.id}, '${body.name}', '${body.age}', '${body.company}', '${body.program}', '${body.disease}', '${body.covered_expense}', '${body.payment}', NOW())`, function (err, rows, fields) {
+
+        if (err) throw err 
+        res.send(JSON.parse('{ "status" : "success"}'));
+
+    })
+
+});
+
+
 /** get company logo */
 router.get('/logo', function(req, res){
 
@@ -215,5 +244,6 @@ router.get('/logo', function(req, res){
     })
   
   });
+
 
 module.exports = router;
