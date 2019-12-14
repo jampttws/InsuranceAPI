@@ -172,6 +172,8 @@ router.get('/allaccount', function(req, res){
 
 });
 
+
+
 /**  
  * check login
  * { 'id' : xxx, 'password' : 'yyy' }
@@ -234,7 +236,7 @@ router.post('/add/history', function(req, res){
 /** get all usage history of user*/
 router.get('/all/history', function(req, res){
 
-    connection.query('SELECT * FROM `User_history`', function (err, rows, fields) {
+    connection.query('SELECT * FROM `User_history` ORDER BY personal_id', function (err, rows, fields) {
   
         if (err) throw err 
           console.log('The solution is: ', rows)
