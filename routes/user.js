@@ -231,6 +231,21 @@ router.post('/add/history', function(req, res){
 });
 
 
+/** get all usage history of user*/
+router.get('/all/history', function(req, res){
+
+    connection.query('SELECT * FROM `User_history`', function (err, rows, fields) {
+  
+        if (err) throw err 
+          console.log('The solution is: ', rows)
+    
+        res.send(rows);
+    
+      })
+    
+});
+
+
 /** get company logo */
 router.get('/logo', function(req, res){
 

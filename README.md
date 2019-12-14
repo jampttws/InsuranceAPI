@@ -107,6 +107,17 @@ for getting all user account.
 GET /user/allaccount
 ```
 
+for add history of user with their usage insurance.
+```
+POST /user/add/history
+with Json request { 'id' : xxx, 'name' : 'yyy', 'age' : aa, 'company' : 'ccc', 'program' : 'ppp', 'disease' : 'ddd', 'covered_expense' : eee, 'payment' : mmm }
+```
+
+for getting history of usage insurance.
+```
+GET /user/all/history
+```
+
 for getting insurance company logo.
 ```
 GET /user/logo
