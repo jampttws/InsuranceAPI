@@ -87,7 +87,7 @@ with Json request { 'id' : xxx, 'name' : 'yyy', 'birthdate' : 'yyyy-mm-dd', 'pro
 for add user account.
 ```
 POST /user/newuser
-with Json request { 'id' : xxx, 'name' : 'yyy', 'password' : 'zzz' }
+with Json request { 'id' : xxx, 'name' : 'yyy', 'password' : 'zzz', 'birthdate' : 'yyyy-mm-dd' }
 ```
 
 for getting each user insurance with match id.
