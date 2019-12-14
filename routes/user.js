@@ -149,7 +149,7 @@ router.post('/newuser', function(req, res) {
 
         } else {
             
-            connection.query(`INSERT INTO ${'`user_account`'}(${'`personal_id`'}, ${'`name`'}, ${'`password`'}, ${'`date_of_birth`'}) VALUES (${body.id},'${body.name}', '${body.password}', '${body.birthdate}')`, function (err, rowss, fields) {
+            connection.query(`INSERT INTO ${'`user_account`'}(${'`personal_id`'}, ${'`name`'}, ${'`password`'}, ${'`date_of_birth`'}) VALUES (${body.id}, '${body.name}', '${body.password}', '${body.birthdate}')`, function (err, rowss, fields) {
 
                 if (err) throw err 
                 res.send(JSON.parse('{ "status" : "success"}'));
