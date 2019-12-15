@@ -167,6 +167,7 @@ router.get('/allaccount', function(req, res){
   
         if (err) throw err 
           console.log('The solution is: ', rows)
+          res.send(rows);
     
     })
 
@@ -193,7 +194,7 @@ router.post('/login', function(req, res) {
               res.send(JSON.parse('{"status":"invalid"}'));
           } else {
              if(rows[0].password === body.password) {
-                res.send(JSON.parse('{"status":"success"}'));
+                res.send(JSON.parse(`{"status":"success", "name": "${rows[0].name}"}`));
              } else {
                 res.send(JSON.parse('{"status":"invalid"}'));
              }       
