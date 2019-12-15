@@ -61,9 +61,12 @@ router.post('/details', function(req, res){
     connection.query(`SELECT * FROM ${'`user_detail`'} JOIN ${`insurance_pic`} 
     ON user_detail.company_name = insurance_pic.company WHERE personal_id = ${body.id}`, function (err, rows, fields) {
   
-      if (err) throw err 
-        console.log('The solution is: ', rows)
-      res.send(rows);
+        if (err) {
+            res.send(JSON.parse(`[]`));
+        } else {
+            console.log('The solution is: ', rows)
+            res.send(rows);
+        }
   
     })
   
@@ -256,12 +259,16 @@ router.post('/id/history', (req, res) => {
 
     connection.query(`SELECT * FROM ${`User_history`} WHERE personal_id = ${body.id} `, function (err, rows, fields) {
   
-        if (err) throw err 
-          console.log('The solution is: ', rows)
+        if (err) {
+            res.send(JSON.parse(`[]`));
+        } else {
+            console.log('The solution is: ', rows)
+            res.send(rows);
+        }
+
+        
     
-        res.send(rows);
-    
-      })
+    })
 
 });
 
