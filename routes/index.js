@@ -44,10 +44,12 @@ router.post('/health/cost', function(req, res) {
 
   connection.query(`SELECT * FROM ${`health_insurance`} WHERE policy_period < ${body.age} AND premium_rate < ${body.rate} ORDER BY company_name`, function (err, rows, fields) {
 
-    if (err) throw err 
+    if (err) {
+      res.send(JSON.parse(`[]`));
+    } else {
       console.log('The solution is: ', rows)
-
-    res.send(rows);
+      res.send(rows);
+    }
 
   })
 
@@ -64,10 +66,12 @@ router.post('/health/cost', function(req, res) {
   
     connection.query(`SELECT * FROM ${`health_insurance`} WHERE policy_period < ${body.age} AND premium_rate < ${body.rate} ORDER BY premium_rate`, function (err, rows, fields) {
   
-      if (err) throw err 
+      if (err) {
+        res.send(JSON.parse(`[]`));
+      } else {
         console.log('The solution is: ', rows)
-  
-      res.send(rows);
+        res.send(rows);
+      }
   
     })
   
@@ -84,10 +88,12 @@ router.post('/health/cost', function(req, res) {
   
     connection.query(`SELECT * FROM ${`health_insurance`} WHERE policy_period < ${body.age} AND premium_rate < ${body.rate} ORDER BY covered_expense`, function (err, rows, fields) {
   
-      if (err) throw err 
+      if (err) {
+        res.send(JSON.parse(`[]`));
+      } else {
         console.log('The solution is: ', rows)
-  
-      res.send(rows);
+        res.send(rows);
+      }
   
     })
   
@@ -102,10 +108,12 @@ router.post('/health/cost', function(req, res) {
   
     connection.query(`SELECT DISTINCT company_name FROM ${`health_insurance`} ORDER BY company_name`, function (err, rows, fields) {
   
-      if (err) throw err 
+      if (err) {
+        res.send(JSON.parse(`[]`));
+      } else {
         console.log('The solution is: ', rows)
-  
-      res.send(rows);
+        res.send(rows);
+      } 
   
     })
   
@@ -121,10 +129,12 @@ router.post('/health/cost', function(req, res) {
   
     connection.query(`SELECT * FROM ${`health_insurance`} WHERE company_name = "${body.company}" ORDER BY program_name`, function (err, rows, fields) {
   
-      if (err) throw err 
+      if (err) {
+        res.send(JSON.parse(`[]`));
+      } else {
         console.log('The solution is: ', rows)
-  
-      res.send(rows);
+        res.send(rows);
+      }
   
     })
   
@@ -140,10 +150,12 @@ router.get('/disease', function(req, res) {
 
   connection.query('SELECT symtomp FROM `disease` WHERE category = "ALL" ORDER BY symtomp', function (err, rows, fields) {
 
-    if (err) throw err 
+    if (err) {
+      res.send(JSON.parse(`[]`));
+    } else {
       console.log('The solution is: ', rows)
-
-    res.send(rows);
+      res.send(rows);
+    }
 
   })
 
@@ -162,11 +174,12 @@ router.post('/health/disease', function(req, res) {
 
   connection.query(`SELECT * FROM ${`health_insurance`} JOIN ${`disease`} ON health_insurance.category = disease.category WHERE health_insurance.policy_period < ${body.age} AND health_insurance.premium_rate < ${body.rate} AND disease.symtomp = "${body.disease}" ORDER BY company_name`, function (err, rows, fields) {
 
-    if (err) throw err 
+    if (err) {
+      res.send(JSON.parse(`[]`));
+    } else {
       console.log('The solution is: ', rows)
-
-    res.send(rows);
-
+      res.send(rows);
+    }
   })
 
 });
@@ -183,10 +196,12 @@ router.post('/health/disease/min', function(req, res) {
 
   connection.query(`SELECT * FROM ${`health_insurance`} JOIN ${`disease`} ON health_insurance.category = disease.category WHERE health_insurance.policy_period < ${body.age} AND health_insurance.premium_rate < ${body.rate} AND disease.symtomp = "${body.disease}" ORDER BY premium_rate`, function (err, rows, fields) {
 
-    if (err) throw err 
+    if (err) {
+      res.send(JSON.parse(`[]`));
+    } else {
       console.log('The solution is: ', rows)
-
-    res.send(rows);
+      res.send(rows);
+    }
 
   })
 
@@ -204,10 +219,12 @@ router.post('/health/disease/min/coverexpense', function(req, res) {
 
   connection.query(`SELECT * FROM ${`health_insurance`} JOIN ${`disease`} ON health_insurance.category = disease.category WHERE health_insurance.policy_period < ${body.age} AND health_insurance.premium_rate < ${body.rate} AND disease.symtomp = "${body.disease}" ORDER BY covered_expense`, function (err, rows, fields) {
 
-    if (err) throw err 
+    if (err) {
+      res.send(JSON.parse(`[]`));
+    } else {
       console.log('The solution is: ', rows)
-
-    res.send(rows);
+      res.send(rows);
+    }
 
   })
 

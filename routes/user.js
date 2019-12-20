@@ -20,10 +20,12 @@ router.get('/', function(req, res){
 
     connection.query('SELECT * FROM `user_detail`', function (err, rows, fields) {
   
-      if (err) throw err 
-        console.log('The solution is: ', rows)
-  
-      res.send(rows);
+        if (err) {
+            res.send(JSON.parse(`[]`));
+        } else {
+            console.log('The solution is: ', rows)
+            res.send(rows);
+        }
   
     })
   
@@ -40,11 +42,12 @@ router.post('/addinsurance', function(req, res){
 
     connection.query(`INSERT INTO ${'`user_detail`'}(${'`personal_id`'}, ${'`name`'}, ${'`date_of_birth`'}, ${'`program_name`'}, ${'`company_name`'}) VALUES (${body.id}, '${body.name}', '${body.birthdate}', '${body.program}', '${body.company}')`, function (err, rows, fields) {
 
-        if (err) throw err 
-        console.log('The solution is: ', rows)
-
-        res.send(rows);
-
+        if (err) {
+            res.send(JSON.parse(`[]`));
+        } else {
+            console.log('The solution is: ', rows)
+            res.send(rows);
+        }
     })
   
 });
@@ -90,34 +93,38 @@ router.post('/details/disease', function(req, res){
             WHERE disease.symtomp = "${body.disease}" )
         AND user_detail.personal_id = ${body.id}`, function (err, rows, fields) {
   
-         if (err) throw err 
-             console.log('The solution is: ', rows)
+         if (err) {
+            res.send(JSON.parse(`[]`));
+         } else {
       
-        var data = [];     
-        var i = 0;
+            var data = [];     
+            var i = 0;
 
-        rows.forEach(  element => {
+            rows.forEach(  element => {
 
-            connection.query(`SELECT picture FROM ${`insurance_pic`} WHERE company = "${element.company_name}"`, function (err, rowss, fields) {
+                connection.query(`SELECT picture FROM ${`insurance_pic`} WHERE company = "${element.company_name}"`, function (err, rowss, fields) {
       
-                if (err) throw err 
-                    console.log('The solution is: ', rowss)
+                    if (err) {
+                    
+                    } else {
+                        console.log('The solution is: ', rowss)
     
-                var d = `{"program_name":"${element.program_name}", "company_name":"${element.company_name}", "covered_expense":"${element.covered_expense}", "picture":"${rowss[0].picture}"}`;
+                        var d = `{"program_name":"${element.program_name}", "company_name":"${element.company_name}", "covered_expense":"${element.covered_expense}", "picture":"${rowss[0].picture}"}`;
 
-                console.log(JSON.parse(d))
-                data.push(JSON.parse(d))
+                        console.log(JSON.parse(d))
+                        data.push(JSON.parse(d))
 
-                i++;
+                        i++;
 
-                if(i === rows.length) {
-                    res.send(data);
-                }    
-            })
-            
-        });  
-
-    })
+                        if(i === rows.length) {
+                            res.send(data);
+                        }    
+                    }
+                });  
+        
+            })     
+         }    
+    });
   
 });  
 
@@ -134,29 +141,37 @@ router.post('/newuser', function(req, res) {
 
     connection.query(`SELECT ${'`personal_id`'} FROM ${'`user_account`'}`, function (err, rows, fields) {
 
-        if (err) throw err 
-        console.log('The solution is: ', rows)
-
-        var matchId = false;
-
-        rows.forEach(element => {
-            if(element.personal_id === body.id){
-                matchId = true;
-            } 
-        });
-
-        if(matchId){
-
-            console.log('already have this account.')
-            res.send(JSON.parse('{ "status" : "fail"}'));
+        if (err) {
 
         } else {
-            
-            connection.query(`INSERT INTO ${'`user_account`'}(${'`personal_id`'}, ${'`name`'}, ${'`password`'}, ${'`date_of_birth`'}) VALUES (${body.id}, '${body.name}', '${body.password}', '${body.birthdate}')`, function (err, rowss, fields) {
+        
+            console.log('The solution is: ', rows)
 
-                if (err) throw err 
-                res.send(JSON.parse('{ "status" : "success"}'));
-            })   
+            var matchId = false;
+
+            rows.forEach(element => {
+                if(element.personal_id === body.id){
+                    matchId = true;
+                } 
+            });
+
+            if(matchId){
+
+                console.log('already have this account.')
+                res.send(JSON.parse('{ "status" : "failed"}'));
+
+            } else {
+
+                connection.query(`INSERT INTO ${'`user_account`'}(${'`personal_id`'}, ${'`name`'}, ${'`password`'}, ${'`date_of_birth`'}) VALUES (${body.id}, '${body.name}', '${body.password}', '${body.birthdate}')`, function (err, rowss, fields) {
+
+                    if (err) {
+                        res.send(JSON.parse('[]'));
+                    } else {
+                        res.send(JSON.parse('{ "status" : "success"}'));
+                    }
+
+                })   
+            }
         }  
 
     })
@@ -168,9 +183,12 @@ router.get('/allaccount', function(req, res){
 
     connection.query('SELECT * FROM `user_account`', function (err, rows, fields) {
   
-        if (err) throw err 
-          console.log('The solution is: ', rows)
-          res.send(rows);
+        if (err) {
+            res.send(JSON.parse(`[]`));
+        } else {
+            console.log('The solution is: ', rows)
+            res.send(rows);
+        }
     
     })
 
@@ -189,7 +207,9 @@ router.post('/login', function(req, res) {
 
     connection.query(`SELECT * FROM ${'`user_account`'} WHERE personal_id = ${body.id}`, function (err, rows, fields) {
   
-        if (err) throw err 
+        if (err) {
+            res.send(JSON.parse('[]'));
+        } else {
           console.log('The solution is: ', rows)
 
           if(JSON.stringify(rows) === "[]"){
@@ -202,6 +222,7 @@ router.post('/login', function(req, res) {
              }       
           }
     
+        }
     })
 
 });
@@ -228,8 +249,11 @@ router.post('/add/history', function(req, res){
     connection.query(`INSERT INTO ${'`User_history`'}(${'`personal_id`'}, ${'`user_name`'}, ${'`user_age`'},  ${'`insurance_company`'}, ${'`insurance_program`'},  ${'`disease`'},  ${'`covered_expense`'},  ${'`payment_cost`'},  ${'`time`'}) 
                       VALUES (${body.id}, '${body.name}', '${body.age}', '${body.company}', '${body.program}', '${body.disease}', '${body.covered_expense}', '${body.payment}', NOW())`, function (err, rows, fields) {
 
-        if (err) throw err 
-        res.send(JSON.parse('{ "status" : "success"}'));
+        if (err) {
+            res.send(JSON.parse('[]'));
+        } else {
+            res.send(JSON.parse('{ "status" : "success"}'));
+        }
 
     })
 
@@ -241,10 +265,13 @@ router.get('/all/history', function(req, res){
 
     connection.query('SELECT * FROM `User_history` ORDER BY personal_id', function (err, rows, fields) {
   
-        if (err) throw err 
-          console.log('The solution is: ', rows)
-    
-        res.send(rows);
+        if (err) {
+            res.send(JSON.parse(`[]`));
+        } else {
+            console.log('The solution is: ', rows)
+            res.send(rows);
+        }
+
     
       })
     
@@ -278,10 +305,13 @@ router.get('/logo', function(req, res){
 
     connection.query('SELECT * FROM `insurance_pic`', function (err, rows, fields) {
   
-      if (err) throw err 
-        console.log('The solution is: ', rows)
-  
-      res.send(rows);
+        if (err) {
+            res.send(JSON.parse(`[]`));
+        } else {
+            console.log('The solution is: ', rows)
+            res.send(rows);
+        }
+
   
     })
   
