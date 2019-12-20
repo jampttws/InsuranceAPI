@@ -128,4 +128,3 @@ for getting insurance company logo.
 ```
 GET /user/logo
 ```
-
