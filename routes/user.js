@@ -93,10 +93,11 @@ router.post('/details/disease', function(req, res){
             WHERE disease.symtomp = "${body.disease}" )
         AND user_detail.personal_id = ${body.id}`, function (err, rows, fields) {
   
-         if (err) {
+        if (err || JSON.stringify(rows) === "[]") {
             res.send(JSON.parse(`[]`));
-         } else {
+        } else {
       
+            console.log(rows)
             var data = [];     
             var i = 0;
 
