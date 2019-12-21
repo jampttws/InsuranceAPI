@@ -61,8 +61,8 @@ router.post('/details', function(req, res){
 
     console.log(body)
 
-    connection.query(`SELECT * FROM ${'`user_detail`'} JOIN ${`insurance_pic`} 
-    ON user_detail.company_name = insurance_pic.company WHERE personal_id = ${body.id}`, function (err, rows, fields) {
+    connection.query(`SELECT user_detail.personal_id, user_detail.name, user_detail.date_of_birth, user_detail.company_name, user_detail.program_name,  health_insurance.covered_expense, insurance_pic.picture FROM user_detail JOIN insurance_pic 
+    ON user_detail.company_name = insurance_pic.company JOIN health_insurance ON user_detail.program_name = health_insurance.program_name WHERE personal_id = ${body.id}`, function (err, rows, fields) {
   
         if (err) {
             res.send(JSON.parse(`[]`));
@@ -105,7 +105,7 @@ router.post('/details/disease', function(req, res){
                 connection.query(`SELECT picture FROM ${`insurance_pic`} WHERE company = "${element.company_name}"`, function (err, rowss, fields) {
       
                     if (err) {
-                    
+                        res.send(JSON.parse("[]"));
                     } else {
                         console.log('The solution is: ', rowss)
     
